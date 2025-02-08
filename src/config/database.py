@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, Numeric
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from models.leads_model import Base  
 import os
 from dotenv import load_dotenv
 
@@ -11,26 +12,20 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-Base = declarative_base()
-
-class Lead(Base):
+def get_db():
     """
-    This module defines the Lead model used for interacting with the database.
-    The Lead class is a SQLAlchemy model that represents a lead with details such as:
-        - id: An auto-generated unique identifier for each lead.
-        - name: The name associated with the lead.
-        - location: The geographical location linked to the lead.
-        - budget: The financial budget associated with the lead.
-    This model serves as the blueprint for the "leads" table within the database, ensuring
-    that each lead record adheres to the specified schema.
+    Dependency to get a database session.
+    This function is used in FastAPI dependency injection to provide a database session.
     """
-    __tablename__ = "leads"
-
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    location = Column(String, nullable=False)
-    budget = Column(Numeric, nullable=False)
-
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def init_db():
+    """
+    Initialize the database with the required tables.
+    This function creates the database tables based on the models defined in the application.
+    """
     Base.metadata.create_all(bind=engine)
