@@ -1,23 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from config.database import SessionLocal, Lead
+from models.leads_model import Lead
 from typing import List
 from models.leads_model import LeadCreate
+from config.database import get_db
 
 router = APIRouter()
 
-def get_db():
-    """
-    Dependency function to get a database session.
-    Ensures that the session is properly closed after use.
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-# 1️⃣ Insertar leads
 @router.post("/leads/", response_model=LeadCreate)
 def create_lead(lead: LeadCreate, db: Session = Depends(get_db)):
     """
