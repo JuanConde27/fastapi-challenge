@@ -70,7 +70,7 @@ Ensure you have the required software installed:
      cd src
      uvicorn main:app --reload
      ```
-     Access the API at: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+     Access the API at: [http://127.0.0.1:8000](http://127.0.0.1:8000/docs)
 
 ## API Endpoints
 
