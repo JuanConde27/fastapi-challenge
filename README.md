@@ -263,7 +263,7 @@ Ensure you have the required software installed:
 │ └── main.py # FastAPI application entry point
 ├── .env # Environment variables file
 ├── .gitignore # Files and folders to be ignored by Git
-├── promptAI.md # Prompt engineering for AI-generated content
+├── promp_example.md # Prompt engineering for AI-generated content
 ├── README.md # Project documentation
 └── requirements.txt # Project dependencies
 ```
